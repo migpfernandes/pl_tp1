@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.4.8)  9 APR 2014 00:31
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.4.8)  9 APR 2014 00:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -257,12 +257,14 @@ Cap\'{\i }tulo 4.
 Cap\'{\i }tulo 5.
 [12
 
+] [13
+
 ] (./relatorio.aux) ) 
 Here is how much of TeX's memory you used:
- 4006 strings out of 493315
- 54709 string characters out of 6137905
- 331122 words of memory out of 5000000
- 7419 multiletter control sequences out of 15000+600000
+ 4007 strings out of 493315
+ 54718 string characters out of 6137905
+ 331126 words of memory out of 5000000
+ 7420 multiletter control sequences out of 15000+600000
  9766 words of font info for 34 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  38i,6n,51p,769b,1692s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -278,10 +280,10 @@ mr17.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
 .pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.p
 fb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb
 >
-Output written on relatorio.pdf (13 pages, 169808 bytes).
+Output written on relatorio.pdf (14 pages, 170688 bytes).
 PDF statistics:
- 91 PDF objects out of 1000 (max. 8388607)
- 64 compressed objects within 1 object stream
+ 94 PDF objects out of 1000 (max. 8388607)
+ 66 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
