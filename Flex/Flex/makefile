@@ -1,4 +1,4 @@
-all: teste
+all: skosProcessor
 
 list.o: list.c
 	gcc -c list.c -o list.o
@@ -10,6 +10,6 @@ lex.o: lex.yy.c skos.l
 	flex skos.l
 	gcc -c lex.yy.c -o lex.o
 
-teste: lex.o concepts.o list.o
-	gcc lex.o concepts.o list.o -o teste -ll
+skosProcessor: lex.o concepts.o list.o
+	gcc lex.o concepts.o list.o -o skosProcessor -ll
 

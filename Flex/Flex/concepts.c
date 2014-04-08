@@ -40,8 +40,6 @@ int findID(void *concList, void *Id)
 }
 
 int fprintConceptList(void *s,FILE *file){
-    NODE* match;
-    
     if (s) {
         fprintf(file,"\t\t\t<li><a href=""concepts/%s.html"">%s</a></li>\n",
                 ((Concept) s)->Id,((Concept) s)->prefLabel);
