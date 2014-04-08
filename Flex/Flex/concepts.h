@@ -32,5 +32,6 @@ Concept initConcept(char *ID);
 Global initGlobal();
 
 void geraPaginas(Global global);
+NODE* addConcept(NODE* list,Concept conc);
     
 #endif

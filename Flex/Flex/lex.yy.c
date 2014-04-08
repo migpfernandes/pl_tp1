@@ -686,14 +686,10 @@ char *yytext;
 #line 2 "skos.l"
 #include "concepts.h"
 #include "list.h"
-#include "ctype.h"
 Global global;
 Concept conc;
 
-void removeNonAlfanumericChars(char* s);
-int conceptComparer(void* node1,void* node2);
-
-#line 697 "lex.yy.c"
+#line 693 "lex.yy.c"
 
 #define INITIAL 0
 #define concept 1
@@ -880,10 +876,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 25 "skos.l"
+#line 21 "skos.l"
 
 	global = initGlobal();
-#line 887 "lex.yy.c"
+#line 883 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -968,27 +964,27 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 27 "skos.l"
+#line 23 "skos.l"
 { BEGIN conceptScheme; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 28 "skos.l"
+#line 24 "skos.l"
 { conc = NULL; BEGIN concept; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 30 "skos.l"
+#line 26 "skos.l"
 {BEGIN topConcept; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 31 "skos.l"
+#line 27 "skos.l"
 {BEGIN 0; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 32 "skos.l"
+#line 28 "skos.l"
 {
 						global.title=strdup(yytext);
 						global.title[strlen(global.title)-11] = '\0';
@@ -997,7 +993,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 37 "skos.l"
+#line 33 "skos.l"
 {
 						global.data=strdup(yytext);
 						global.data[strlen(global.data)-10] = '\0';
@@ -1006,100 +1002,95 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 43 "skos.l"
+#line 39 "skos.l"
 {
 						char* id = strdup(yytext);
 						id[strlen(id)-1] = '\0';
 						id++;
-						removeNonAlfanumericChars(id);
 						global.topConcepts = list_insert_beginning(global.topConcepts,id); 
 					}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 50 "skos.l"
+#line 45 "skos.l"
 { BEGIN conceptScheme; }
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 52 "skos.l"
+#line 47 "skos.l"
 { 
 						char* id = strdup(yytext);
 						id[strlen(id)-1] = '\0';
 						id = id + 11;
-						removeNonAlfanumericChars(id);
 						conc = initConcept(id); 
 					}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 59 "skos.l"
+#line 53 "skos.l"
 { BEGIN preflabel; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 60 "skos.l"
+#line 54 "skos.l"
 { BEGIN altlabel; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 61 "skos.l"
-{ global.concepts = list_insert_sorted(global.concepts,conc,conceptComparer); }
+#line 55 "skos.l"
+{ global.concepts = addConcept(global.concepts,conc); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 62 "skos.l"
+#line 56 "skos.l"
 {
 						char *id = strdup(yytext);
 						id[strlen(id)-3]='\0';
 						id = id + 28;
-						removeNonAlfanumericChars(id);
 						conc->broaderIDs= list_insert_beginning(conc->broaderIDs,id);
 					}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 70 "skos.l"
+#line 63 "skos.l"
 {
 						char *id = strdup(yytext);
 						id[strlen(id)-3]='\0';
 						id = id + 29;
-						removeNonAlfanumericChars(id);
 						conc->narrowerIDs= list_insert_beginning(conc->narrowerIDs,id);
 					}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 78 "skos.l"
+#line 70 "skos.l"
 {
 						char *id = strdup(yytext);
 						id[strlen(id)-3]='\0';
 						id = id + 28;
-						removeNonAlfanumericChars(id);
 						conc->relatedIDs= list_insert_beginning(conc->relatedIDs,id);
 					}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 86 "skos.l"
+#line 77 "skos.l"
 { BEGIN concept; }
 	YY_BREAK
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 87 "skos.l"
+#line 78 "skos.l"
 { conc->prefLabel = strdup(yytext); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 89 "skos.l"
+#line 80 "skos.l"
 { BEGIN concept; }
 	YY_BREAK
 case 19:
 /* rule 19 can match eol */
 YY_RULE_SETUP
-#line 90 "skos.l"
+#line 81 "skos.l"
 { 
 						char *alt = strdup(yytext);
 						conc->altLabel = list_insert_beginning(conc->altLabel,alt); 
@@ -1108,20 +1099,20 @@ YY_RULE_SETUP
 case 20:
 /* rule 20 can match eol */
 YY_RULE_SETUP
-#line 95 "skos.l"
+#line 86 "skos.l"
 ;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 96 "skos.l"
+#line 87 "skos.l"
 ;
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 97 "skos.l"
+#line 88 "skos.l"
 ECHO;
 	YY_BREAK
-#line 1125 "lex.yy.c"
+#line 1116 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(concept):
 case YY_STATE_EOF(conceptScheme):
@@ -2123,7 +2114,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 97 "skos.l"
+#line 88 "skos.l"
 
 
 int printstring(void *s)
@@ -2161,24 +2152,6 @@ int printrelated(void *s){
 int printnarrower(void *s){
 	printf("%s\n",((Concept) s)->narrowerIDs->data);
 	return 0;
-}
-
-int conceptComparer(void* node1,void* node2){
-	return strcmp(((Concept) node1)->prefLabel,((Concept) node2)->prefLabel);
-}
-
-void removeNonAlfanumericChars(char* s){
-	char res[strlen(s)];
-	int i=0,j=0;
-	while(s[i]!='\0'){
-		if(isalnum(s[i])) {
-			res[j] = s[i];
-			j++;
-		}
-		i++;
-	}
-	res[j]='\0';
-	strcpy(s,res);
 }
 
 int yywrap(){

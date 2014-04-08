@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "ctype.h"
 #include "concepts.h"
 
 
@@ -34,35 +35,58 @@ Global initGlobal(){
     return res;
 }
 
+void removeNonAlfanumericChars(char* s){
+	char res[strlen(s)];
+	int i=0,j=0;
+	while(s[i]!='\0'){
+		if(isalnum(s[i])) {
+			res[j] = s[i];
+			j++;
+		}
+		i++;
+	}
+	res[j]='\0';
+	strcpy(s,res);
+}
+
 int findID(void *concList, void *Id)
 {
 	return strcmp(((Concept) concList)->Id, (char*)Id)?0:1;
 }
 
 int fprintConceptList(void *s,FILE *file){
+    char* filename;
     if (s) {
+        filename = strdup(((Concept) s)->Id);
+        removeNonAlfanumericChars(filename);
         fprintf(file,"\t\t\t<li><a href=""concepts/%s.html"">%s</a></li>\n",
-                ((Concept) s)->Id,((Concept) s)->prefLabel);
+                filename,((Concept) s)->prefLabel);
     }
     return 0;
 }
 
 int fprintRelationships(void *s,void* list,FILE *file){
     NODE* match;
+    char* filename;
     
     if ((s) && (match=list_find((NODE*) list,findID ,(char*) s))) {
+        filename = strdup(s);
+        removeNonAlfanumericChars(filename);
         fprintf(file,"\t\t<li><a href=""%s.html"">%s</a></li>\n",
-                (char *) s,((Concept)match->data)->prefLabel);
+                filename,((Concept)match->data)->prefLabel);
     }
     return 0;
 }
 
 int fprintTopConcepts(void *s,void* list,FILE *file){
     NODE* match;
+    char* filename;
     
     if ((s) && (match=list_find((NODE*) list,findID ,(char*) s))) {
+        filename = strdup(s);
+        removeNonAlfanumericChars(filename);
         fprintf(file,"\t\t<li><a href=""concepts/%s.html"">%s</a></li>\n",
-                (char *) s,((Concept)match->data)->prefLabel);
+                filename,((Concept)match->data)->prefLabel);
     }
     return 0;
 }
@@ -74,17 +98,28 @@ int fprintAltLabel(void *s,void* list,FILE *file){
     return 0;
 }
 
+int conceptComparer(void* node1,void* node2){
+	return strcmp(((Concept) node1)->prefLabel,((Concept) node2)->prefLabel);
+}
+
+NODE* addConcept(NODE* list,Concept conc){
+    return list_insert_sorted(list,conc,conceptComparer);
+}
 
 int geraConceptPage(void* node,void* list,char* title){
     FILE *file;
     Concept c;
+    char* filenameAux;
     
     if (!node) return -1;
     c =(Concept) node;
     
     char filename[250]="concepts/";
     
-    strcat(filename,c->Id);
+    filenameAux = strdup(c->Id);
+    removeNonAlfanumericChars(filenameAux);
+    
+    strcat(filename,filenameAux);
     strcat(filename,".html");
     
     file = fopen(filename,"w");

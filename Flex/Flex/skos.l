@@ -1,12 +1,8 @@
 %{
 #include "concepts.h"
 #include "list.h"
-#include "ctype.h"
 Global global;
 Concept conc;
-
-void removeNonAlfanumericChars(char* s);
-int conceptComparer(void* node1,void* node2);
 %}
 %x concept conceptScheme topConcept preflabel altlabel
 
@@ -44,7 +40,6 @@ RELATEDTAG	\<skos\:related\ rdf\:resource\=\".*\"\/\>
 						char* id = strdup(yytext);
 						id[strlen(id)-1] = '\0';
 						id++;
-						removeNonAlfanumericChars(id);
 						global.topConcepts = list_insert_beginning(global.topConcepts,id); 
 					}
 <topConcept>\/\>			{ BEGIN conceptScheme; }
@@ -53,17 +48,15 @@ RELATEDTAG	\<skos\:related\ rdf\:resource\=\".*\"\/\>
 						char* id = strdup(yytext);
 						id[strlen(id)-1] = '\0';
 						id = id + 11;
-						removeNonAlfanumericChars(id);
 						conc = initConcept(id); 
 					}
 <concept>{PREFLABELBTAG}		{ BEGIN preflabel; }
 <concept>{ALTLABELBTAG}			{ BEGIN altlabel; }
-<concept>{CONCEPTETAG}			{ global.concepts = list_insert_sorted(global.concepts,conc,conceptComparer); }
+<concept>{CONCEPTETAG}			{ global.concepts = addConcept(global.concepts,conc); }
 <concept>{BROADERTAG}			{
 						char *id = strdup(yytext);
 						id[strlen(id)-3]='\0';
 						id = id + 28;
-						removeNonAlfanumericChars(id);
 						conc->broaderIDs= list_insert_beginning(conc->broaderIDs,id);
 					}
 
@@ -71,7 +64,6 @@ RELATEDTAG	\<skos\:related\ rdf\:resource\=\".*\"\/\>
 						char *id = strdup(yytext);
 						id[strlen(id)-3]='\0';
 						id = id + 29;
-						removeNonAlfanumericChars(id);
 						conc->narrowerIDs= list_insert_beginning(conc->narrowerIDs,id);
 					}
 
@@ -79,7 +71,6 @@ RELATEDTAG	\<skos\:related\ rdf\:resource\=\".*\"\/\>
 						char *id = strdup(yytext);
 						id[strlen(id)-3]='\0';
 						id = id + 28;
-						removeNonAlfanumericChars(id);
 						conc->relatedIDs= list_insert_beginning(conc->relatedIDs,id);
 					}
 
@@ -130,24 +121,6 @@ int printrelated(void *s){
 int printnarrower(void *s){
 	printf("%s\n",((Concept) s)->narrowerIDs->data);
 	return 0;
-}
-
-int conceptComparer(void* node1,void* node2){
-	return strcmp(((Concept) node1)->prefLabel,((Concept) node2)->prefLabel);
-}
-
-void removeNonAlfanumericChars(char* s){
-	char res[strlen(s)];
-	int i=0,j=0;
-	while(s[i]!='\0'){
-		if(isalnum(s[i])) {
-			res[j] = s[i];
-			j++;
-		}
-		i++;
-	}
-	res[j]='\0';
-	strcpy(s,res);
 }
 
 int yywrap(){
