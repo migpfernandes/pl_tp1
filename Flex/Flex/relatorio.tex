@@ -22,27 +22,29 @@
 
 \chapter{Introdução}
 \section{Enunciado}
-O Simple Knowledge Organization System (SKOS) é um vocabulário RDF (Resource Des- cription Framework) para representar especificações de conhecimento semi-formais, tais como thesauri, taxonomias, sistemas de classificação ou listas finitas de termos, às vezes designadas vocabulários controlados. Como o SKOS é baseado em RDF, as especificações SKOS podem ser lidas e interpretadas por máquinas e podem ser trocadas entre aplicações de software.
-O SKOS foi concebido com o objetivo de facilitar a migração de modelos organizacionais exis- tentes para a Web Semântica. No entanto, pode ser usado para especificar novos modelos de conhecimento e partilhá-los na Web. Pode ser usado isoladamente ou combinado com outras linguagens mais formais como o OWL (Ontology Web Language). Pode também ser usado como ponte entre as linguagens de ontologias como o OWL e as pouco estruturadas ferramentas que suportam a Web social.
-Para uma documentação mais abrangente os alunos deverão consultar os documentos oficiais do W3C: http://www.w3.org/TR/skos-primer/
-Neste projeto, pretende-se que seja desenvolvido um processador que, recebendo um ficheiro SKOS contendo uma especificação de um modelo de conhecimento, crie um conjunto de páginas HTML que permitam uma navegação fácil no modelo.
+O Simple Knowledge Organization System (SKOS) é um vocabulário RDF (Resource Description Framework) para representar especificações de conhecimento semi-formais, tais como thesauri, taxonomias, sistemas de classificação ou listas finitas de termos, às vezes designadas vocabulários controlados. Como o SKOS é baseado em RDF, as especificações SKOS podem ser lidas e interpretadas por máquinas e podem ser trocadas entre aplicações de software.\\
+O SKOS foi concebido com o objetivo de facilitar a migração de modelos organizacionais exis- tentes para a Web Semântica. No entanto, pode ser usado para especificar novos modelos de conhecimento e partilhá-los na Web. Pode ser usado isoladamente ou combinado com outras linguagens mais formais como o OWL (Ontology Web Language). Pode também ser usado como ponte entre as linguagens de ontologias como o OWL e as pouco estruturadas ferramentas que suportam a Web social.\\
+Para uma documentação mais abrangente os alunos deverão consultar os documentos oficiais do W3C: \url{http://www.w3.org/TR/skos-primer/}\\
+Neste projeto, pretende-se que seja desenvolvido um processador que, recebendo um ficheiro SKOS contendo uma especificação de um modelo de conhecimento, crie um conjunto de páginas HTML que permitam uma navegação fácil no modelo.\\
 Listam-se a seguir duas ontologias SKOS que os alunos deverão usar como casos de estudo:
-Ontologia das localidades portuguesas : http://www.di.uminho.pt/~jcr/XML/didac/ xmldocs/SKOS/localidades.rdf;
-Ontologia informática da ACM : http://www.di.uminho.pt/~jcr/XML/didac/xmldocs/ SKOS/ACM-SKOSTaxonomy.xml.
+\begin{description}
+\item[Ontologia das localidades portuguesas:] \url{http://www.di.uminho.pt/~jcr/XML/didac/ xmldocs/SKOS/localidades.rdf};
+\item[Ontologia informática da ACM:] \url{http://www.di.uminho.pt/~jcr/XML/didac/xmldocs/ SKOS/ACM-SKOSTaxonomy.xml}.
+\end{description}
 
 \section{Objetivos}
 Este trabalho prático tem como principais objectivos:
 \begin{itemize}
-\item aumentar a experiência de uso do ambiente Linux, da linguagem imperativa C (para codi- ficação das estruturas de dados e respectivos algoritmos de manipulação), e de algumas ferramentas de apoio à programação; 
+\item aumentar a experiência de uso do ambiente Linux, da linguagem imperativa C (para codificação das estruturas de dados e respectivos algoritmos de manipulação), e de algumas ferramentas de apoio à programação; 
 \item aumentar a capacidade de escrever Expressões Regulares (ER) para descrição de padrões de frases; 
 \item desenvolver, a partir de ERs, sistemática e automaticamente Processadores de Linguagens Regulares, que filtrem ou transformem textos; 
 \item utilizar geradores de filtros/processadores de texto, como o Flex 
-\item compreensão do modelo de dados SKOS e desenvolvimento  de processador de texto que converta esse modelo num conjunto de páginas web navegáveis.
+\item compreensão do modelo de dados SKOS e desenvolvimento  de um processador de texto que converta esse modelo num conjunto de páginas web navegáveis.
 \end{itemize}
 
 \section{Contextualização}
-O formato SKOS apesar da sua imensa potencialidade na área de troca de informação é um formato pouco inteligível e de difícil navegação ao utilizador comum. Torna-se por isso necessário desenvolver ferramentas que, partindo do modelo de dados SKOS, consigam extrair a sua informação vital e a consigam converter para formatos mais amigáveis. Um dos formatos que melhor permite visualizar essa informação é o html.
-O html é largamente utilizado hoje em dia. Quer seja para consultar o email, ler notícias, ver vídeos ou ouvir música, quase toda a gente já acedeu a uma página web pelo menos uma vez na vida. O html permite ainda integrar outras tecnologias como javascript e css que permitem pegar em dados crus e criar interfaces agradáveis e de utilização intuitiva.
+O formato SKOS, apesar da sua imensa potencialidade na área de troca de informação, é um formato pouco inteligível e de difícil navegação ao utilizador comum. Torna-se por isso necessário o desenvolvimento de ferramentas que, partindo do modelo de dados SKOS, consigam extrair a sua informação vital e a consigam converter para formatos mais amigáveis. Um dos formatos que melhor permite visualizar essa informação é o html.\\
+O html é largamente utilizado hoje em dia. Quer seja para consultar o email, ler notícias, ver vídeos ou ouvir música, quase toda a gente já acedeu a uma página web pelo menos uma vez na vida. O html permite ainda integrar outras tecnologias como javascript e css que permitem pegar em dados crus e criar interfaces agradáveis e de utilização intuitiva.\\
 Uma vez que o modelo de dados SKOS tem uma estrutura bem definida o que se pretende implementar é um processador de texto que receba como entrada um ficheiro SKOS, extraia a informação mais relevante e a insira numa estrutura de dados criada para o efeito. Será depois desenvolvida uma rotina que a partir da estrutura criada gerará um conjunto de páginas navegáveis e um pequeno índice de conceitos.
 
 \chapter{Implementação}
@@ -51,9 +53,9 @@ Após análise da estrutura dos dois casos de estudo fornecidos e também da estrut
 \begin{itemize}
 \item skos:ConceptScheme - contém informação geral do modelo nomeadamente:
 \begin{itemize}
-\item dc:title - titulo do modelo
+\item dc:title - título do modelo
 \item dc:date - data do modelo
-\item skos:hasTopConcept - são conceitos de alto nível. Servem quase como índice dos restantes conceitos. Estas ``etiquetas'' possuem um atributo, ``rdf:resource'', que contém um identificador do ``skos.Concept'' que contém a informação mais detalhada do skos.TopConcept.
+\item skos:hasTopConcept - são conceitos de alto nível. Servem quase como índice dos restantes conceitos. Estas ``etiquetas'' possuem um atributo, ``rdf:resource'', que contém um identificador do ``skos:Concept'' que contém a informação mais detalhada do skos:TopConcept.
 \end{itemize}
 \item skos:Concept - se pensarmos num modelo SKOS como numa abstração de um grafo, o skos:Concept corresponde aos nodos desse grafo. Contém um atributo com identificador que representa de forma única o nodo e contém ainda as seguintes sub-etiquetas:
 \begin{itemize}
@@ -65,10 +67,10 @@ Após análise da estrutura dos dois casos de estudo fornecidos e também da estrut
 \end{itemize}
 \end{itemize}
 
-Uma vez que estes foram considerados os elementos chave de um SKOS, serão estes os elementos processados pelo autómato definido em Flex.
+Uma vez que estes foram considerados os elementos chave de um SKOS, serão estes os elementos processados pelo analisador lexical definido em Flex.
 
 \section{Estruturas de dados e funções chave}
-Em seguida serão explicitados os extratos do código considerado mais fulcral ao funcionamento da aplicação. Para consultar ou realizar download do código fonte poderão consultar o seguinte repositório no github \url{https://github.com/migpfernandes/pl_tp1.git} . 
+Em seguida serão explicitados os extratos do código considerados mais relevantes e no cerne do funcionamento da aplicação. Para consultar ou realizar download do código fonte poderão consultar o seguinte repositório no github \url{https://github.com/migpfernandes/pl_tp1.git} . 
 \subsection{Listas Genéricas}
 Uma vez que um ficheiro SKOS pode ter um número indefinido de ``Concepts'' é necessário utilizar uma estrutura dinâmica capaz de armazenar tantos dados quanto o necessário. Como será também necessário utilizar listas de ``Strings'' para armazenar os vários elementos de relacionamento optou-se por criar uma lista genérica assim como funções genéricas de manuseamento de listas.
 A estrutura que define um nó da lista é a seguinte:
@@ -93,7 +95,7 @@ int list_foreach_global_file(NODE *node,NODE* list,FILE* file, int(*func)(void*,
 NODE *list_find(NODE *node, int(*func)(void*,void*), void *data);
 \end{lstlisting}
 \subsection{Concept}
-A estrutura abaixo basicamente corresponde à estrutura definida no modelo de dados SKOS de um ``Concept''. Um ``Concept'' tem um id, uma prefLabel, pode ter uma ou mais designações alternativas e vários apontadores para os ``Concepts'' relacionados, sejam estes ``broader'', ``related'' ou ``narrower''.
+A estrutura abaixo tem uma relação quase de espelho com a estrutura definida no modelo de dados SKOS de um ``Concept''. Um ``Concept'' tem um ``id'', uma ``prefLabel'', pode ter uma ou mais designações alternativas e vários apontadores para os ``Concepts'' relacionados, sejam estes ``broader'', ``related'' ou ``narrower''.
 \begin{lstlisting}
 typedef struct concept_s {
     char* Id;
@@ -138,7 +140,7 @@ Concept conc;
 \begin{lstlisting}
 %x concept conceptScheme topConcept preflabel altlabel
 \end{lstlisting}
-O nome dos contextos permite facilmente identificam as entidades que pretendem processar. Existe uma grande proximidade entre os contextos e as etiquetas do ficheiro. Para além de todos estes contextos existe ainda o contexto raiz, identificado por 0, que basicamente descarta todos os carateres até aparecer uma expressão que inicie um dos outros contextos.
+O nome dos contextos permite facilmente identificar as entidades que pretendem processar. Existe uma grande proximidade entre os contextos e as etiquetas do ficheiro. Para além de todos estes contextos existe ainda o contexto raiz, identificado por 0, que basicamente descarta todos os carateres até aparecer uma expressão que inicie um dos outros contextos.
 \subsection{Processamento dos nodos}
 \begin{lstlisting}
 <concept>rdf\:about\=\"[^\"]+\"
@@ -219,7 +221,7 @@ conc->broaderIDs= list_insert_beginning(conc->broaderIDs,id);
 </rdf:RDF>
 \end{lstlisting}
 \section{Processamento do ficheiro}
-Para executar o programa executa-se a seguinte instrução numa bash:
+Para executar o programa executa-se a seguinte instrução na bash:
 \begin{lstlisting}
 ./skosProcessor < ACM-SKOSTaxonomy.xml
 \end{lstlisting}
@@ -310,8 +312,8 @@ NOTA: é necessário garantir que existe uma pasta chamada concepts na pasta do pr
 </html>
 \end{lstlisting}
 \chapter{Conclusões}
-Após a realização deste trabalho foi possível comprovar a utilidade de uma ferramenta como o Flex. Neste trabalho, a partir de um ficheiro  SKOS imperceptível ao utilizador comum gerou-se um conjunto de páginas html com navegações entre as várias páginas, cuja forma de consulta é similar às consultas realizadas dezenas de vezes por dia numa navegação pela Internet.
-Mas a partir deste mesmo ficheiro, poder-se-ia ter gerado scripts de criação de uma base de dados, um qualquer outro formato que um outro programa estivesse à espera, ficheiros excel... As possibilidades são imensas.
+Após a realização deste trabalho foi possível comprovar a utilidade de uma ferramenta como o Flex. Neste trabalho, a partir de um ficheiro  SKOS imperceptível ao utilizador comum gerou-se um conjunto de páginas html com navegações entre si e cuja forma de consulta é similar às consultas realizadas dezenas de vezes por dia numa navegação pela Internet.\\
+Mas a partir deste mesmo ficheiro, poder-se-ia ter gerado scripts de criação de uma base de dados, um qualquer outro formato que um outro programa estivesse à espera, ficheiros excel... As possibilidades são imensas.\\
 A realização deste trabalho permitiu também concluir que a estrutura xml inerente ao formato SKOS facilita bastante o desenho de um automatismo de processamento de texto. 
 \chapter{Trabalho Futuro}
 \begin{itemize}

@@ -2,7 +2,7 @@
  *  list.c
  *  
  *
- *  Created by Miguel Fernandes on 02/04/2014.
+ *  Adapted by Miguel Fernandes on 02/04/2014.
  *	http://en.literateprograms.org/Singly_linked_list_(C)
  *
  */

@@ -12,7 +12,10 @@
 #include "ctype.h"
 #include "concepts.h"
 
-
+/**
+ * Inicia um objeto do tipo Concept.
+ * Aloca memória para um novo Concept.
+ */
 Concept initConcept(char *ID){
     Concept res = (void*) malloc(sizeof(ConceptN));
     res -> Id = strdup(ID);
@@ -25,6 +28,9 @@ Concept initConcept(char *ID){
     return res;
 }
 
+/**
+ * Inicia um objeto do tipo Global
+ */
 Global initGlobal(){
     Global res;
     res.title = "";
@@ -35,6 +41,9 @@ Global initGlobal(){
     return res;
 }
 
+/**
+ * Remove carateres nao alfanuméricos para gerar os filenames das páginas
+ */
 void removeNonAlfanumericChars(char* s){
 	char res[strlen(s)];
 	int i=0,j=0;
@@ -49,11 +58,17 @@ void removeNonAlfanumericChars(char* s){
 	strcpy(s,res);
 }
 
+/**
+ * Função auxiliar utilizada para encontrar Concepts numa lista por ID
+ */
 int findID(void *concList, void *Id)
 {
 	return strcmp(((Concept) concList)->Id, (char*)Id)?0:1;
 }
 
+/**
+ * Função auxiliar utilizada para adicionar os Concepts ao index
+ */
 int fprintConceptList(void *s,FILE *file){
     char* filename;
     if (s) {
@@ -65,6 +80,9 @@ int fprintConceptList(void *s,FILE *file){
     return 0;
 }
 
+/**
+ * Função auxiliar utilizada para adicionar as relações de um Context à página html
+ */
 int fprintRelationships(void *s,void* list,FILE *file){
     NODE* match;
     char* filename;
@@ -78,6 +96,9 @@ int fprintRelationships(void *s,void* list,FILE *file){
     return 0;
 }
 
+/**
+ * Função auxiliar utilizada para adicionar os topConcepts ao index
+ */
 int fprintTopConcepts(void *s,void* list,FILE *file){
     NODE* match;
     char* filename;
@@ -91,6 +112,9 @@ int fprintTopConcepts(void *s,void* list,FILE *file){
     return 0;
 }
 
+/**
+ * Função auxiliar utilizada para adicionar as designações alternativas à página html
+ */
 int fprintAltLabel(void *s,void* list,FILE *file){
     if (s) {
         fprintf(file,"\t\t<li>%s</li>\n",(char *) s);
@@ -98,14 +122,26 @@ int fprintAltLabel(void *s,void* list,FILE *file){
     return 0;
 }
 
+/**
+ * Comparer utilizado para ordenar a lista de concepts
+ */
 int conceptComparer(void* node1,void* node2){
 	return strcmp(((Concept) node1)->prefLabel,((Concept) node2)->prefLabel);
 }
 
+/**
+ * Faz uma inserção ordenada por prefLabel de um concept à lista existente
+ */
 NODE* addConcept(NODE* list,Concept conc){
     return list_insert_sorted(list,conc,conceptComparer);
 }
 
+/**
+ * Gera uma página com a especificação de um Concept
+ * @param node Concept a processar
+ * @param list Lista com todos os Concepts utilizada para obter as prefLabels dos Concepts relacionados
+ * @param title Titulo do Skos a ser processado
+ */
 int geraConceptPage(void* node,void* list,char* title){
     FILE *file;
     Concept c;
@@ -177,6 +213,10 @@ int geraConceptPage(void* node,void* list,char* title){
     return 0;
 }
 
+/**
+ *
+ * Gera o índice de Concepts
+ */
 int geraIndex(Global global){
     FILE *file;
     file = fopen("index.html","w");
@@ -213,7 +253,12 @@ int geraIndex(Global global){
     return 0;
 }
 
+/**
+ * Gera as páginas html a partir da estrutura global obtida pelo FLEX
+ * @param global estrutura global com toda a informação captada pelo FLEX
+ */
 void geraPaginas(Global global){
+    //Gera uma pagina por cada Concept
     list_foreach_global(global.concepts,global.concepts,global.title,geraConceptPage);
     geraIndex(global);
 }
