@@ -3,6 +3,7 @@
 \usepackage[latin1]{inputenc}
 \usepackage{graphicx} 
 \usepackage{listings}
+\usepackage{hyperref}
 
 \parindent=0pt
 \parskip=2pt
@@ -67,6 +68,7 @@ Após análise da estrutura dos dois casos de estudo fornecidos e também da estrut
 Uma vez que estes foram considerados os elementos chave de um SKOS, serão estes os elementos processados pelo autómato definido em Flex.
 
 \section{Estruturas de dados e funções chave}
+Em seguida serão explicitados os extratos do código considerado mais fulcral ao funcionamento da aplicação. Para consultar ou realizar download do código fonte poderão consultar o seguinte repositório no github \url{https://github.com/migpfernandes/pl_tp1.git} . 
 \subsection{Listas Genéricas}
 Uma vez que um ficheiro SKOS pode ter um número indefinido de ``Concepts'' é necessário utilizar uma estrutura dinâmica capaz de armazenar tantos dados quanto o necessário. Como será também necessário utilizar listas de ``Strings'' para armazenar os vários elementos de relacionamento optou-se por criar uma lista genérica assim como funções genéricas de manuseamento de listas.
 A estrutura que define um nó da lista é a seguinte:
